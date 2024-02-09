@@ -26,5 +26,5 @@ Emily L Sims
 - Metadata updates when a new sample is selected (10 points)
 - App Successfully Deployed to Github Pages (10 points)
 
-## References
+# References
 Hulcr, J. et al. (2012) A Jungle in There: Bacteria in Belly Buttons are Highly Diverse, but Predictable. Retrieved from: http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/ Links to an external site.
