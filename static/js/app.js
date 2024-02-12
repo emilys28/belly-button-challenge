@@ -82,7 +82,7 @@ function BubbleCharts(sampleId) {
         let sampleValues = sample.sample_values;
         let otuLabels = sample.otu_labels;
 
-        // Create horizontal bar chart
+        // Create bubble chart
         let trace2 = {
             x: otuIds,
             y: sampleValues,
