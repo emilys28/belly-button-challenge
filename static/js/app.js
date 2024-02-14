@@ -13,32 +13,39 @@ d3.json(url).then(function(data) {
 // Use otu_ids as the labels for the bar chart.
 // Use otu_labels as the hovertext for the chart.
 
-// Function to initialize the page
+// Function to initialize the page w/ dropdown and graphs we want
 function init() {
     let dropdownMenu = d3.select("#selDataset");
     // Read data from the JSON file
-    d3.json(url).then(function(data) {
+    d3.json(url).then((data) => {
         // Extract sample IDs from data
-        const sampleIds = data.names;
+        let sampleIds = data.names;
         
         // dropdown menu with sample IDs
         sampleIds.forEach((id) => {
+            console.log(id);
             dropdownMenu.append("option").text(id).property("value", id);
         });
 
         // Display the first sample by default
         let firstSample = sampleIds[0];
+
+        // Display first sample in console
+        console.log(firstSample);
+
+        // Build the charts
         BarCharts(firstSample);
         BubbleCharts(firstSample);
+        Metadata(firstSample);
     });
-}
+};
 
 
 // Function to build BAR charts
 function BarCharts(sampleId) {
     d3.json(url).then(function(data) {
         // Filter data for the selected sample
-        const sample = data.samples.find(sample => sample.id === sampleId);
+        let sample = data.samples.find(sample => sample.id == sampleId);
         
         // Extract top 10 OTUs
         let otuIds = sample.otu_ids.slice(0, 10).map(id => `OTU ${id}`).reverse();
@@ -54,7 +61,7 @@ function BarCharts(sampleId) {
             orientation: "h"
         };
         let layout1 = {
-            title: "Top 10 OTUs",
+            title: `Top 10 OTUs for Sample ${sampleId}`,
             xaxis: { title: "Sample Values" },
             yaxis: { title: "OTU IDs" }
         };
@@ -75,7 +82,7 @@ function BarCharts(sampleId) {
 function BubbleCharts(sampleId) {
     d3.json(url).then(function(data) {
         // Filter data for the selected sample
-        const sample = data.samples.find(sample => sample.id === sampleId);
+        let sample = data.samples.find(sample => sample.id == sampleId);
         
         // Extract top 10 OTUs
         let otuIds = sample.otu_ids;
@@ -95,7 +102,7 @@ function BubbleCharts(sampleId) {
             }
         };
         let layout2 = {
-            title: 'Sample Bubble Chart',
+            title: `Bubble Chart for Sample ${sampleId}`,
             xaxis: { title: 'OTU IDs' },
             yaxis: { title: 'Sample Values' }
         };
@@ -105,6 +112,38 @@ function BubbleCharts(sampleId) {
 
 
 // 4. Display the sample metadata, i.e., an individual's demographic information.
+
+function Metadata(sampleID) {
+
+    // Use D3 to retrieve all of the data
+    d3.json(url).then((data) => {
+
+        // Retrieve all metadata
+        let metadata = data.metadata;
+
+        // Filter based on the value of the sample
+        let sample = metadata.filter(result => result.id == sampleID);
+
+        // Log the array of metadata objects after the have been filtered
+        console.log(sample)
+
+        // Get the first index from the array
+        let valueData = sample[0];
+
+        // Clear out metadata
+        d3.select("#sample-metadata").html("");
+
+        // Use Object.entries to add each key/value pair to the panel
+        Object.entries(valueData).forEach(([key, sample]) => {
+
+            // Log the individual key/value pairs as they are being appended to the metadata panel
+            console.log(key,sample);
+
+            d3.select("#sample-metadata").append("h5").text(`${key}: ${sample}`);
+        });
+    });
+
+};
 
 
 
@@ -132,8 +171,8 @@ function BubbleCharts(sampleId) {
 // Update the chart whenever a new sample is selected.
 
 // Event listener for dropdown change
-function optionChanged(newSampleId) {
-    buildCharts(newSampleId);
+function optionChanged(sample) {
+    buildCharts(sample);
 }
 
 // Initialize the page
