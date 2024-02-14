@@ -172,7 +172,9 @@ function Metadata(sampleID) {
 
 // Event listener for dropdown change
 function optionChanged(sample) {
-    buildCharts(sample);
+    BarCharts(sample);
+    BubbleCharts(sample);
+    Metadata(sample);
 }
 
 // Initialize the page
