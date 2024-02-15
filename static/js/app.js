@@ -3,7 +3,7 @@
 //creating constant variable URL
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json"
 
-//reading then displaying data in console log
+//reading w/ D3 then displaying data in console log
 d3.json(url).then(function(data) {
      console.log(data);
 });
@@ -28,7 +28,7 @@ function init() {
         });
 
         // Display the first sample by default
-        let firstSample = sampleIds[0];
+        const firstSample = sampleIds[0];
 
         // Display first sample in console
         console.log(firstSample);
@@ -37,12 +37,14 @@ function init() {
         BarCharts(firstSample);
         BubbleCharts(firstSample);
         Metadata(firstSample);
+        GaugeChart(firstSample);
     });
 };
 
 
 // Function to build BAR charts
 function BarCharts(sampleId) {
+    // Use D3 to retrieve all of the data
     d3.json(url).then(function(data) {
         // Filter data for the selected sample
         let sample = data.samples.find(sample => sample.id == sampleId);
@@ -61,7 +63,7 @@ function BarCharts(sampleId) {
             orientation: "h"
         };
         let layout1 = {
-            title: `Top 10 OTUs for Sample ${sampleId}`,
+            title: `Top 10 OTUs for Subject ${sampleId}`,
             xaxis: { title: "Sample Values" },
             yaxis: { title: "OTU IDs" }
         };
@@ -80,7 +82,8 @@ function BarCharts(sampleId) {
 
 // Function to build BUBBLE chart
 function BubbleCharts(sampleId) {
-    d3.json(url).then(function(data) {
+    // Use D3 to retrieve all of the data
+    d3.json(url).then((data) => {
         // Filter data for the selected sample
         let sample = data.samples.find(sample => sample.id == sampleId);
         
@@ -102,7 +105,7 @@ function BubbleCharts(sampleId) {
             }
         };
         let layout2 = {
-            title: `Bubble Chart for Sample ${sampleId}`,
+            title: `Bubble Chart for Subject ${sampleId}`,
             xaxis: { title: 'OTU IDs' },
             yaxis: { title: 'Sample Values' }
         };
@@ -133,13 +136,14 @@ function Metadata(sampleID) {
         // Clear out metadata
         d3.select("#sample-metadata").html("");
 
+        // 5. Display each key-value pair from the metadata JSON object somewhere on the page.
         // Use Object.entries to add each key/value pair to the panel
-        Object.entries(valueData).forEach(([key, sample]) => {
+        Object.entries(valueData).forEach(([key, value]) => {
 
             // Log the individual key/value pairs as they are being appended to the metadata panel
-            console.log(key,sample);
+            console.log(key, value);
 
-            d3.select("#sample-metadata").append("h5").text(`${key}: ${sample}`);
+            d3.select("#sample-metadata").append("h5").text(`${key}: ${value}`);
         });
     });
 
@@ -147,34 +151,61 @@ function Metadata(sampleID) {
 
 
 
-// 5. Display each key-value pair from the metadata JSON object somewhere on the page.
-
-
-
-// 6. Update all the plots when a new sample is selected. 
-// Additionally, you are welcome to create any layout that you would like for your dashboard. 
-
-
 // 7. Deploy your app to a free static page hosting service, such as GitHub Pages. 
 // Submit the links to your deployment and your GitHub repo. 
 // Ensure that your repository has regular commits and a thorough README.md file
 
 
+function GaugeChart(sampleID) {
+    d3.json(url).then((data) => {
+        // Retrieve metadata for the selected sample
+        let metadata = data.metadata;
+        let sample = metadata.find(item => item.id == sampleID);
+        let frequency = sample.wfreq;
 
+        // Trace for the data for the gauge chart
+        let trace3 = [{
+            type: "indicator",
+            mode: "gauge+number",
+            value: frequency,
+            domain: { x: [0, 1], y: [0, 1] },
+            title: { text: `Washing Frequency for Subject ${sampleID}` }, 
+            gauge: {
+                axis: { range: [null, 9] }, 
+                bar: { color: "black" },
+                steps: [
+                    { range: [0, 1], color: "red" },
+                    { range: [1, 2], color: "orange" },
+                    { range: [2, 3], color: "yellow" },
+                    { range: [3, 4], color: "lightgreen" },
+                    { range: [4, 5], color: "darkgreen" },
+                    { range: [5, 6], color: "lightblue" },
+                    { range: [6, 7], color: "blue" },
+                    { range: [7, 8], color: "violet" },
+                    { range: [8, 9], color: "purple" },
+                ]
+            }
+        }];
 
-// OPTIONAL:
-// Advanced Challenge Assignment (Optional with no extra points earning)
+        let layout3 = {
+            width: 600, 
+            height: 450,
+            margin: { t: 0, b: 0 } 
+        };
 
-// The following task is advanced and therefore optional.
-// Adapt the Gauge Chart from https://plot.ly/javascript/gauge-charts/ to plot the weekly washing frequency of the individual.
-// You will need to modify the example gauge code to account for values ranging from 0 through 9.
-// Update the chart whenever a new sample is selected.
+        // Use Plotly to plot the data in a gauge chart
+        Plotly.newPlot("gauge", trace3, layout3);
+    });
+};
 
+// 6. Update all the plots when a new sample is selected. 
+// Additionally, you are welcome to create any layout that you would like for your dashboard. 
 // Event listener for dropdown change
 function optionChanged(sample) {
     BarCharts(sample);
     BubbleCharts(sample);
     Metadata(sample);
+    GaugeChart(sample);
 }
 
 // Initialize the page
