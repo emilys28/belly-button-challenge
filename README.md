@@ -31,7 +31,7 @@ Emily L Sims
 ## Metadata and Deployment (30 points)
 - Metadata initializes without error (10 points)
 - Metadata updates when a new sample is selected (10 points)
-- App Successfully Deployed to Github Pages (10 points)
+- App Successfully Deployed to Github Pages (10 points). See: <href>https://emilys28.github.io/belly-button-challenge/</href>
 <img width="175" alt="Metadata for Subject 940" src="https://github.com/emilys28/belly-button-challenge/blob/3b5f112e97e50673bccfc36adc5daa4f53ae4067/assets/MetadataID940.png">
 
 ## Advanced Challenge Assignment (Optional with no extra points earning)
