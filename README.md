@@ -26,7 +26,7 @@ Emily L Sims
 - Chart uses sample_values for the marker size (5 points)
 - Chart uses `otu_labels for text values (5 points)
 
-<alt="Bubble Chart for Sample ID 940" src="https://github.com/emilys28/belly-button-challenge/assets/146903245/4c6294a7-49ea-46a9-bb95-5a3ef24caa19">
+
 
 ## Metadata and Deployment (30 points)
 - Metadata initializes without error (10 points)
