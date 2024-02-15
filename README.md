@@ -14,6 +14,8 @@ Emily L Sims
 - Chart uses Top 10 sample values as values (5 points)
 - Chart uses otu_ids as the labels (5 points)
 - Chart uses otu_labels as the tooltip (5 points)
+  
+![Unknown-2](https://github.com/emilys28/belly-button-challenge/assets/146903245/ba5ab657-f4c8-413d-aaed-e2c6908cf690)
 
 ## Bubble Charts (40 points)
 - Chart initializes without error (10 points)
