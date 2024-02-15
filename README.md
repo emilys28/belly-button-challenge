@@ -4,6 +4,9 @@ Module 14: Javascript Challenge
 # Author
 Emily L Sims
 
+# Deployment
+<href>https://emilys28.github.io/belly-button-challenge/</href>
+
 # Requirements
 ## Bar Chart (30 points)
 - Chart initializes without error (10 points)
